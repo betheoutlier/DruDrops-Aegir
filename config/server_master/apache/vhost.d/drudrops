@@ -1,0 +1,34 @@
+<VirtualHost *:80>
+
+  DocumentRoot /var/aegir/hostmaster-6.x-1.6 
+    
+  ServerName drudrops
+  SetEnv db_type  mysqli
+  SetEnv db_name  drudrops
+  SetEnv db_user  drudrops
+  SetEnv db_passwd  5wREbTK6ot
+  SetEnv db_host  localhost
+  SetEnv db_port  3306
+
+
+
+# Extra configuration from modules:
+
+    # Error handler for Drupal > 4.6.7
+    <Directory "/var/aegir/hostmaster-6.x-1.6/sites/drudrops/files">
+      SetHandler This_is_a_Drupal_security_line_do_not_remove
+    </Directory>
+
+    # Prevent direct reading of files in the private dir.
+    # This is for Drupal7 compatibility, which would normally drop
+    # a .htaccess in those directories, but we explicitly ignore those
+    <DirectoryMatch "/var/aegir/hostmaster-6.x-1.6/sites/drudrops/private/(files|temp)/" >
+       SetHandler This_is_a_Drupal_security_line_do_not_remove
+       Deny from all
+       Options None
+       Options +FollowSymLinks
+    </DirectoryMatch>
+    
+
+</VirtualHost>
+
